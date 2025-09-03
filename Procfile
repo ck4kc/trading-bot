@@ -1,0 +1,1 @@
+worker: node trading-bot-simple.js

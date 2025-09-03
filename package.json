@@ -1,0 +1,21 @@
+{
+  "name": "binary-options-trading-bot",
+  "version": "1.0.0",
+  "description": "Optimized Binary Options Trading Bot - Target 70%+ Win Rate with Advanced Signal Analysis",
+  "main": "trading-bot-simple.js",
+  "scripts": {
+    "start": "node trading-bot-simple.js",
+    "bot": "node trading-bot-simple.js",
+    "dev": "node trading-bot-simple.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["binary-options", "trading", "bot", "technical-analysis", "risk-management", "deriv"],
+  "author": "Kiro AI",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.14.2",
+    "dotenv": "^16.3.1"
+  }
+}
