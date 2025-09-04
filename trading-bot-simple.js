@@ -25,8 +25,8 @@ class SimpleTradingBot {
             
             // SIMPLE SIGNAL PARAMETERS
             rsiPeriod: 14,
-            rsiOverbought: 70,
-            rsiOversold: 30,
+            rsiOverbought: 65,
+            rsiOversold: 35,
             emaPeriod: 20,
         };
         
@@ -252,14 +252,32 @@ class SimpleTradingBot {
         }
 
         const currentRSI = this.state.rsiValues[this.state.rsiValues.length - 1];
+        const currentPrice = this.state.prices[this.state.prices.length - 1];
+        const currentEMA = this.state.emaValues[this.state.emaValues.length - 1];
         
-        // Simple RSI signals
+        // More aggressive RSI signals (35/65 instead of 30/70)
         if (currentRSI <= this.config.rsiOversold) {
             return { type: 'CALL', reason: 'RSI Oversold', strength: 75 };
         }
         
         if (currentRSI >= this.config.rsiOverbought) {
             return { type: 'PUT', reason: 'RSI Overbought', strength: 75 };
+        }
+        
+        // Add EMA crossover signals for more trades
+        if (this.state.emaValues.length >= 2) {
+            const prevEMA = this.state.emaValues[this.state.emaValues.length - 2];
+            const prevPrice = this.state.prices[this.state.prices.length - 2];
+            
+            // Price crosses above EMA (bullish)
+            if (prevPrice <= prevEMA && currentPrice > currentEMA && currentRSI < 60) {
+                return { type: 'CALL', reason: 'EMA Bullish Cross', strength: 65 };
+            }
+            
+            // Price crosses below EMA (bearish)
+            if (prevPrice >= prevEMA && currentPrice < currentEMA && currentRSI > 40) {
+                return { type: 'PUT', reason: 'EMA Bearish Cross', strength: 65 };
+            }
         }
         
         return null;
